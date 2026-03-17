@@ -4,9 +4,11 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+
+	"rgb/internal/handlers"
 )
 
-func setRouter() *gin.Engine {
+func setRouter(itemHandler *handlers.ItemHandler, shipmentHandler *handlers.ShipmentHandler) *gin.Engine {
 	// Creates default gin router with Logger and Recovery middleware already attached
 	router := gin.Default()
 
@@ -23,22 +25,20 @@ func setRouter() *gin.Engine {
 		})
 	}
 
+	// Items route group logic is handled in internal/server/handlers/items
 	items := router.Group("/items")
 	{
-		// Route to handle adding new and updating existing items to the system, logic is in the handler
-		items.POST("/updateItem", updateItem)
-
-		// Route to handle getting existing items from the system, logic is in the handler
-		items.GET("/getItems", getItems)
+		items.POST("/", itemHandler.CreateItem)
+		items.PUT("/:id", itemHandler.UpdateItem)
+		items.GET("/", itemHandler.GetItems)
 	}
 
+	// Shipments route group logic is handled in internal/server/handlers/shipments
 	shipments := router.Group("/shipments")
 	{
-		// Route to handle adding new and updating existing shipments from the system, logic is in the handler
-		shipments.GET("/getShipments", updateShipment)
-
-		// Route to handle getting existing shipments from the system, logic is in the handler
-		shipments.GET("/getShipments", getShipments)
+		shipments.POST("/", shipmentHandler.CreateShipment)
+		shipments.PUT("/:id", shipmentHandler.UpdateShipment)
+		shipments.GET("/", shipmentHandler.GetShipments)
 	}
 
 	router.NoRoute(func(ctx *gin.Context) { ctx.JSON(http.StatusNotFound, gin.H{}) })
