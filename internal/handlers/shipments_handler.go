@@ -4,20 +4,23 @@ import (
 	"log/slog"
 	"net/http"
 	"rgb/internal/models"
+	"rgb/internal/services"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
 
 type ShipmentHandler struct {
-	validate *validator.Validate
-	logger   *slog.Logger
+	shipmentService *services.ShipmentService
+	validate        *validator.Validate
+	logger          *slog.Logger
 }
 
-func NewShipmentHandler(v *validator.Validate, l *slog.Logger) *ShipmentHandler {
+func NewShipmentHandler(ss *services.ShipmentService, v *validator.Validate, l *slog.Logger) *ShipmentHandler {
 	return &ShipmentHandler{
-		validate: v,
-		logger:   l,
+		shipmentService: ss,
+		validate:        v,
+		logger:          l,
 	}
 }
 

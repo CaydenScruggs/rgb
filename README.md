@@ -11,3 +11,7 @@ Sample items POST payload:
     "weight": 100,
     "LastFed": "2026-01-05"
 }
+
+Notes / Bugs:
+
+- Pointers are a source of confusion, need to spend time understanding what I'm passing through

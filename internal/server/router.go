@@ -30,7 +30,7 @@ func setRouter(itemHandler *handlers.ItemHandler, shipmentHandler *handlers.Ship
 	{
 		items.POST("/", itemHandler.CreateItem)
 		items.PUT("/:id", itemHandler.UpdateItem)
-		items.GET("/", itemHandler.GetItems)
+		items.GET("/:id", itemHandler.GetItemById)
 	}
 
 	// Shipments route group logic is handled in internal/server/handlers/shipments
